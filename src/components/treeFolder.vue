@@ -2,7 +2,7 @@
   <li role="component:treeFolder">
     <div class="list-title">
       <span v-if="isFolder" @click="onOpenIconClick">[{{isOpen ? '-' : '+'}}]</span>
-      <span>{{model.name}}</span>
+      <span @dblclick="changeToDirectory">{{model.name}}</span>
       <span class="file-create-icon" v-if="isFolder" @click="onCreateFileClick">+</span>
     </div>
     <ul v-if="isFolder" v-show="isOpen">
@@ -13,7 +13,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
-// import Vue from 'vue'
+import Vue from 'vue'
 
 export default {
   /*
@@ -23,7 +23,7 @@ export default {
 
   data () {
     return {
-      isOpen: true
+      isOpen: false
     }
   },
 
@@ -41,6 +41,13 @@ export default {
   },
 
   methods: {
+    changeToDirectory: function () {
+      if (!this.isFolder) {
+        Vue.set(this.model, 'children', [])
+        this.onCreateFileClick()
+      }
+    },
+
     onCreateFileClick: function () {
       this.model.children.push({
         'name': 'newIn'
@@ -59,5 +66,7 @@ export default {
   .list-title
 
     .file-create-icon
+      display inline-block
+      padding 0 15px
       color orange
 </style>
