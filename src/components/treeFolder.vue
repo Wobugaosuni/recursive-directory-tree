@@ -44,6 +44,7 @@ export default {
     changeToDirectory: function () {
       if (!this.isFolder) {
         Vue.set(this.model, 'children', [])
+        this.isOpen = true
         this.onCreateFileClick()
       }
     },

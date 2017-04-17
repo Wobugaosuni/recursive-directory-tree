@@ -2,6 +2,14 @@
 
 > recursive-directory-tree
 
+## function
+- click `[-]`or `[+]`: close or open the list
+- dblclick the list name which has no directory: change type from file to directory
+- click `+`: create file and open the list
+
+## demo
+Please open: https://wobugaosuni.github.io/recursive-directory-tree/
+
 ## Build Setup
 
 ``` bash
