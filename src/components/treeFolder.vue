@@ -69,5 +69,5 @@ export default {
     .file-create-icon
       display inline-block
       padding 0 15px
-      color orange
+      color blue
 </style>
