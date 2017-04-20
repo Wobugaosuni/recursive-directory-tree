@@ -9,6 +9,16 @@
       <tree-folder v-for="childObject in model.children" :model="childObject">
       </tree-folder>
     </ul>
+     <div class="create-new-wrapper" v-if="createNew">
+      <input
+        type="text"
+        class="create-new"
+        placeholder="请输入"
+        v-focus="createNew"
+        v-model.trim="selfDefinedModelName"
+        @change="onNameInputFinished"
+        @blur="onNameInputBlur" />
+    </div>
   </li>
 </template>
 
@@ -23,7 +33,9 @@ export default {
 
   data () {
     return {
-      isOpen: false
+      isOpen: false,
+      createNew: false,
+      selfDefinedModelName: ''
     }
   },
 
@@ -36,7 +48,23 @@ export default {
      * 判断是否有下级目录
      */
     isFolder: function () {
-      return this.model.children && this.model.children.length
+      return this.model.children
+      // return this.model.children && this.model.children.length
+    }
+  },
+
+  // beforeCreate: function () {
+  //   this.$options.components.tagTreeFolderContent = require('../tagTreeFolderContent/tagTreeFolderContent')
+  // },
+
+  directives: {
+    focus: {
+      inserted: function (el, {value}) {
+        if (value) {
+          // console.log('el', el);
+          el.focus()
+        }
+      }
     }
   },
 
@@ -45,14 +73,33 @@ export default {
       if (!this.isFolder) {
         Vue.set(this.model, 'children', [])
         this.isOpen = true
-        this.onCreateFileClick()
+        // console.log('this.model', this.model)
+        // console.log('this.open', this.isOpen)
+        // this.onCreateFileClick()
       }
     },
 
     onCreateFileClick: function () {
-      this.model.children.push({
-        'name': 'newIn'
-      })
+      this.isOpen = true
+      this.createNew = true
+      // this.model.children.push({
+      //   'name': 'newIn'
+      // })
+    },
+
+    onNameInputFinished: function () {
+      if (this.selfDefinedModelName) {
+        this.model.children.push({
+          name: this.selfDefinedModelName
+          // children: []
+        })
+      }
+      this.selfDefinedModelName = ''
+      this.createNew = false
+    },
+
+    onNameInputBlur: function () {
+      this.createNew = false
     },
 
     onOpenIconClick: function () {
@@ -70,4 +117,12 @@ export default {
       display inline-block
       padding 0 15px
       color blue
+
+  .create-new-wrapper
+    font-size 12px
+    margin 6px 0 0 20px
+
+    .create-new
+      display inline-block
+      padding 3px 6px
 </style>
